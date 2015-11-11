@@ -26,6 +26,8 @@ public class TransactionController {
 	public static final String SEPARATOR_OUT_CLASS = "&";
 	
 	public TransactionController(String filename) {
+		PriceController priceCtrl = new PriceController("pricesettings.txt");
+		this.priceSettings = priceCtrl.getPriceSettings();
 		// read String from text file
 		try {
 			ArrayList transactionArray = (ArrayList)read(filename);
@@ -37,9 +39,7 @@ public class TransactionController {
 					StringTokenizer star = new StringTokenizer(st , SEPARATOR_IN_TRANS);	// pass in the string to the string tokenizer using delimiter "|"
 					String  id = star.nextToken().trim();
 					String  date = star.nextToken().trim();
-					Calendar cal = Calendar.getInstance();
 					SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss yyyy",Locale.ROOT);
-					cal.setTime(sdf.parse(date));
 					String  priceStr = star.nextToken().trim();	
 					double price = Double.parseDouble(priceStr);
 					String ticketInfoListStr = star.nextToken().trim();
@@ -57,14 +57,16 @@ public class TransactionController {
 						String  classPref = star2.nextToken().trim();	
 						String  cineplexId = star2.nextToken().trim();	
 						String  cinemaId = star2.nextToken().trim();
-						String showtimeStr = star2.nextToken().trim();
+						String showtimeStrArr = star2.nextToken().trim();
+						String showtimeStr = showtimeStrArr.substring(4,20) + showtimeStrArr.substring(24,28);
 						Calendar cal2 = Calendar.getInstance();
 						cal2.setTime(sdf.parse(showtimeStr));
 						Showtime newshowtime = new Showtime(cineplexId, cinemaId, cal2);
 						TicketInfo newTicketInfo = new TicketInfo(newcustomer, movieTitle, seatId, classPref, newshowtime);
 						ticketList.add(newTicketInfo);
 					}
-					Transaction newTransaction = new Transaction(id, cal, price, ticketList);
+					Transaction newTransaction = new Transaction(id, date, price, ticketList);
+					transactionList.add(newTransaction);
 				}catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -106,20 +108,38 @@ public class TransactionController {
 				st.append(ticketInfo.getSeatId());
 				st.append(SEPARATOR_IN_TICKET);
 				st.append(ticketInfo.getClassPref());
-				st.append(SEPARATOR_OUT_TICKET);
+				st.append(SEPARATOR_IN_TICKET);
+				st.append(ticketInfo.getShowtime().getCineplexId());
+				st.append(SEPARATOR_IN_TICKET);
+				st.append(ticketInfo.getShowtime().getCinemaId());
+				st.append(SEPARATOR_IN_TICKET);
+				st.append(ticketInfo.getShowtime().getCalendar().getTime().toString());
+				st.append(SEPARATOR_IN_TICKET);
 			}
 			alw.add(st.toString());
 		}
 		write("transaction.txt",alw);
 	}
 	
-	public void getTransHistory(String filename, String transId) {
+	public void getTransHistory(String transId) {
 		for(int i = 0; i < transactionList.size(); i++) {
 			if(transactionList.get(i).getId().equals(transId)) {
-				for(int j = 0; j < transactionList.get(i).getTickets().size(); j++) {
-					System.out.println(transactionList.get(i).getTickets().get(j).getCustomer().getName());
-					System.out.println(transactionList.get(i).getTickets().get(j).getCustomer().getMobile());
+				System.out.println("-----------------------------------------------------------");
+				System.out.println("Transaction Information: ");
+				System.out.printf("Date of Purchases: %s", transactionList.get(i).getDate());
+				System.out.printf("Number of tickets buy: %d", transactionList.get(i).getTickets().size());
+				System.out.printf("\nMovie Title: %s", transactionList.get(i).getTickets().get(0).getMovieTitle());
+				System.out.printf("\nShow Time: %s", transactionList.get(i).getTickets().get(0).getShowtime().getCalendar().getTime());
+				for(int j = 0; j < transactionList.get(i).getTickets().size(); j++) {	
+					System.out.printf("\nTicket %d:", j);
+					System.out.printf("\nCustomer Name: %s", transactionList.get(i).getTickets().get(j).getCustomer().getName());
+					System.out.printf("\nCustomer Mobile: %s", transactionList.get(i).getTickets().get(j).getCustomer().getMobile());
+					System.out.printf("\nCustomer Email: %s", transactionList.get(i).getTickets().get(j).getCustomer().getEmail());
+					System.out.printf("\nSeat Id: %s", transactionList.get(i).getTickets().get(j).getSeatId());
+					System.out.printf("\nClass Pref: %s", transactionList.get(i).getTickets().get(j).getClassPref());
 				}
+				System.out.printf("\nTotal Price: %.2f\n", transactionList.get(i).getPrice());
+				System.out.println("\n-----------------------------------------------------------");
 			}
 		}
 	}
@@ -146,6 +166,19 @@ public class TransactionController {
 		try {
 			for (int i = 0; i < data.size() ; i++) {
 				out.println((String)data.get(i));
+			}
+	    }
+	    finally {
+	      out.close();
+	    }
+	}
+	
+	// Write fixed content to the given file
+	public static void writeAppend(String fileName, List data) throws IOException  {
+		PrintWriter out = new PrintWriter(new FileWriter(fileName));
+		try {
+			for (int i = 0; i < data.size() ; i++) {
+				out.append((String)data.get(i)  + '\n');
 			}
 	    }
 	    finally {
