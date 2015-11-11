@@ -26,16 +26,13 @@ public class App {
 			System.out.println("-------------------------------------------------------------------------------");
 			System.out.println("Select your choice : ");
 			System.out.println("1. Search and List movies");
-			System.out.println("2. View movie details â€“ including reviews and ratings");
-			System.out.println("3. Check seat availability and selection of seat(s)");
-			System.out.println("4. Book and purchase ticket with selected seats");
-			System.out.println("5. View booking history");
-			System.out.println("6. List the Top 5 ranking by ticket sales OR by overall reviewersâ€™ ratings");
+			System.out.println("2. View movie details – including reviews and ratings");
+			System.out.println("3. View booking history");
+			System.out.println("4. List the Top 5 ranking by overall reviewers’ ratings");
 			System.out.println("-------------------------------------------------------------------------------");
 			int choice = scan.nextInt();
 			List<Showtime> showtime = new ArrayList<Showtime>();
 			List<Seat> seatList = new ArrayList<Seat>();
-			List<Ticket> ticketList = new ArrayList<Ticket>();
 			List<TicketInfo> ticketInfo = new ArrayList<TicketInfo>();
 			Movie movie = new Movie();
 			int showtimeNumber = 0;
@@ -79,15 +76,17 @@ public class App {
 							if(movieCtrl.getMovieList().get(j).getTitle().equals(title)) {
 								movie = movieCtrl.getMovieList().get(j);
 								movieFound = true;
+								
 							} 
 						}
-						if(!movieFound) {
-							System.out.println("\nThetitle you enter is not correct or The movie you want to view is not in our data base.");
-							System.out.println("Choose can choose Search For Movies for the correct title or View Details to enter again");
+						if(!movieFound || movie.getStatus().equals("End Of Showing")) {
+							System.out.println("\nThetitle you enter is not correct or The movie is End Of Showing.");
+							System.out.println("You can choose Search For Movies for the correct title or View Details to enter again");
 							System.out.println();
 							viewDetail = false;
 						}
 						else {
+							List<Ticket> ticketList = new ArrayList<Ticket>();
 							showtime = movieCtrl.printDetails(movie);
 							System.out.println("\nSelect your next option: ");
 							System.out.println("1. Check seat availability and select seat for this movie");
@@ -161,16 +160,15 @@ public class App {
 											Random rand = new Random();
 											int randomNum = rand.nextInt(1000) + 1;
 											String transactionid = Integer.toString(randomNum);
-											transaction = new Transaction(transactionid, cal, totalPrice, ticketInfo);
+											transaction = new Transaction(transactionid, cal.getTime().toString() , totalPrice, ticketInfo);
 											TransactionController transCtrl = new TransactionController("transaction.txt");
 											transCtrl.add(transaction);
-											transCtrl.getTransHistory("transaction.txt", transaction.getId());
+											transCtrl.getTransHistory(transaction.getId());
 											CineplexController cineplexCtrl = new CineplexController("cineplex.txt");
 											cineplexCtrl.updateCineplex(ticketList);
 											viewDetail = false;
 										}
 									}
-								
 									break;				
 								case 2:
 									break;
@@ -179,7 +177,17 @@ public class App {
 									break;	
 							}
 						}
-					}	
+					}
+					break;
+				case 3:
+					System.out.print("Enter your transaction ID: ");
+					String id = scan.next();
+					TransactionController transCtrl = new TransactionController("transaction.txt");
+					transCtrl.getTransHistory(id);
+					break;
+				case 4:
+					movieCtrl.printTopMovie();
+					break;
 			}
 		}
 	}
