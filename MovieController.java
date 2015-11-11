@@ -196,6 +196,26 @@ public class MovieController {
 		return showtime;
 	}
 	
+	public void printTopMovie() {
+		List<Double> ratingList = new ArrayList();
+		for(Movie movie : movieList) {
+			ratingList.add(movie.getOverallRating());
+		}
+		Collections.sort(ratingList);
+		List<Double> sortedRatingList = ratingList.subList(0, 5);
+		int i = 0;
+		for(Movie movie : movieList) { 
+			for(double rating : sortedRatingList) {
+				if(rating == movie.getOverallRating()) {
+					i++;
+					System.out.printf("%d. %s",i,movie.getTitle());
+				}
+				if(i == 5)
+					return;
+			}
+		}
+		
+	} 	
 	
 	public void checkAndSelectSeats(Showtime showtime) {
 		CineplexController cineplexCtrl = new CineplexController("cineplex.txt");
