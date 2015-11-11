@@ -1,0 +1,4 @@
+PMN|123456|Minh Nhat
+CAP|caplin|Xuan Vu
+Duc|chichko|Huynh Duc
+QFH|abcdef|QFH
