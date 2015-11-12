@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.text.ParseException;
 
-public class MovieController implements IPrinter {
+public class MovieController {
 	
 	/* file IO seperator */
 	public static final String SEPARATOR_IN1 = "#";
@@ -103,17 +103,6 @@ public class MovieController implements IPrinter {
 		return movieList;
 	} 
 	
-	@Override
-	public void print(int choice, Movie movie) {
-		switch(choice) {
-			case 1: 
-				printList(movie);
-				break;
-			case 2:
-				printTopMovie();
-		}
-	}
-	
 	// Read the contents of the given file
 	public static List read(String fileName) throws IOException {
 		List data = new ArrayList() ;
@@ -156,6 +145,10 @@ public class MovieController implements IPrinter {
 	}
 	
 	
+	public void printList(Movie movie) {
+		System.out.println(movie.getTitle());
+	}
+	
 	public void searchMoviesByTitle(String title) {
 		boolean found = false;
 		System.out.println("\n-------------------------------------------------------------");
@@ -168,10 +161,6 @@ public class MovieController implements IPrinter {
 		if(!found)
 			System.out.println("No Movies Found!");
 		System.out.println("-------------------------------------------------------------");
-	}
-	
-	public void printList(Movie movie) {
-		System.out.println(movie.getTitle());
 	}
 	
 	public void searchMoviesByStatus(String status) {
@@ -641,6 +630,7 @@ public class MovieController implements IPrinter {
 		for (Movie movie : mc.getMovieList())
 			mc.printDetails(movie);
 		
-	}
+	}	
 }
+
 
