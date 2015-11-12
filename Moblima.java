@@ -16,16 +16,16 @@ import java.util.Locale;
 import java.util.Random;
 import java.text.ParseException;
 
-public class Mobila {
+public class Moblima {
 	public static void main(String[] aArgs) throws IOException {
 		boolean cont = false;
 		while(true) {
 			Scanner scan = new Scanner(System.in);
-			System.out.println("========= MOBILA ====================");
-			System.out.println("| 1. Admin Module                   |");
-			System.out.println("| 1. Movie-Goer Module              |");
-			System.out.println("| 3. Exit                           |");
-			System.out.println("=====================================");
+			System.out.println("\n========================= MOBLIMA ===========================");
+			System.out.println("|1. Admin Module                                            |");
+			System.out.println("|2. Movie-Goer Module                                       |");
+			System.out.println("|3. Exit                                                    |");
+			System.out.println("=============================================================");
 			int module = scan.nextInt();
 			switch(module) {
 				case 1:
