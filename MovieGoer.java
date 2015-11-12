@@ -16,20 +16,19 @@ import java.util.Locale;
 import java.util.Random;
 import java.text.ParseException;
 
-public class App {
-	public static void main(String[] aArgs) throws IOException {
+public class MovieGoer {
+	public static void main(String[] args) throws IOException {
 		MovieController movieCtrl = new MovieController("movie.txt");
 		List<Movie> movieList = movieCtrl.getMovieList();
 		boolean cont = true;
 		Scanner scan = new Scanner(System.in);
 		while(cont) {
-			System.out.println("-------------------------------------------------------------------------------");
-			System.out.println("Select your choice : ");
-			System.out.println("1. Search and List movies");
-			System.out.println("2. View movie details – including reviews and ratings");
-			System.out.println("3. View booking history");
-			System.out.println("4. List the Top 5 ranking by overall reviewers’ ratings");
-			System.out.println("-------------------------------------------------------------------------------");
+			System.out.println("\n===================== MOVIE-GOER ============================");
+			System.out.println("|1. Search and List movies                                  |");
+			System.out.println("|2. View movie details – including reviews and ratings      |");
+			System.out.println("|3. View booking history                                    |");
+			System.out.println("|4. List the Top 5 ranking by overall reviewers’ ratings    |");
+			System.out.println("=============================================================");
 			int choice = scan.nextInt();
 			List<Showtime> showtime = new ArrayList<Showtime>();
 			List<Seat> seatList = new ArrayList<Seat>();
@@ -40,10 +39,11 @@ public class App {
 				case 1:
 					boolean research = true;
 					while(research) {
-						System.out.println("Select what you are searching for: ");
-						System.out.println("1. Movies's Title");
-						System.out.println("2. Now Showing Movies");
-						System.out.println("3. Coming Soon Movies");
+						System.out.println("\n===================== SEARCH & LIST =========================");
+						System.out.println("|1. Movies's Title											|");
+						System.out.println("|2. Now Showing Movies										|");
+						System.out.println("|3. Coming Soon Movies										|");
+						System.out.println("=============================================================");
 						int searchType = scan.nextInt();
 						switch(searchType) {
 							case 1:
@@ -68,6 +68,7 @@ public class App {
 				case 2:
 					boolean viewDetail = true;
 					while(viewDetail) {
+						System.out.println("\n==================== VIEW MOVIE DETAILS =====================");
 						System.out.print("Enter the (exact) movie's title to view details: ");
 						scan.nextLine();
 						String title = scan.nextLine();
@@ -82,16 +83,18 @@ public class App {
 						if(!movieFound || movie.getStatus().equals("End Of Showing")) {
 							System.out.println("\nThetitle you enter is not correct or The movie is End Of Showing.");
 							System.out.println("You can choose Search For Movies for the correct title or View Details to enter again");
+							System.out.println("=============================================================");
 							System.out.println();
 							viewDetail = false;
 						}
 						else {
 							List<Ticket> ticketList = new ArrayList<Ticket>();
 							showtime = movieCtrl.printDetails(movie);
-							System.out.println("\nSelect your next option: ");
-							System.out.println("1. Check seat availability and select seat for this movie");
-							System.out.println("2. View Other Movie's Details");		
-							System.out.println("3. Exit");
+							System.out.println("\n===================== MOVIE OPTIONS ==========================");
+							System.out.println("|1. Check seat availability and select seat for this movie	|");
+							System.out.println("|2. View Other Movie's Details								|");		
+							System.out.println("|3. Exit													|");
+							System.out.println("=============================================================");
 							int case2Choice = scan.nextInt();
 							String[] MOVIETYPEPRICE_DF = {"2D", "3D", "IMAX"};
 							String[] CLASSPRICE_DF = {"Platinum Movie Suites", "Elite", "Ultima", "Dolby Atmos"};
@@ -111,16 +114,16 @@ public class App {
 										Seat seat = new Seat(seatId);
 										seatList.add(seat);
 									}
-									System.out.println("\nSelect your next option: ");
-									System.out.println("1. Book and purchase ticket with selected seats");	
-									System.out.println("2. Exit");
+									System.out.println("\n=================== TICKET BOOKING ==========================");
+									System.out.println("|1. Book and purchase ticket with selected seats			|");
+									System.out.println("|2. Exit													|");
+									System.out.println("=============================================================");
 									if(scan.nextInt() == 2)
 										viewDetail = false;
 									else {
 										double totalPrice = 0;
-										System.out.print("Enter information for each ticket (seat): ");
+										System.out.println("\n==================== TICKET CHOICE ==========================");
 										scan.nextLine();
-										System.out.println(seatList.size());
 										for(int i = 0; i < seatList.size(); i++) {
 											System.out.printf("\n%dst Ticket : ",i + 1);
 											System.out.print("\n* Name : ");
@@ -152,6 +155,7 @@ public class App {
 											ticketList.add(newticket);	
 											ticketInfo.add(newTincketInfo);
 										}
+										System.out.println("=============================================================\n");
 										System.out.print("Proceed to purchase the above tickets (y) or exit(n): ");
 										boolean purchase = scan.next().equals("y");
 										if(purchase) {
@@ -168,6 +172,7 @@ public class App {
 											cineplexCtrl.updateCineplex(ticketList);
 											viewDetail = false;
 										}
+										System.out.println("=============================================================");
 									}
 									break;				
 								case 2:
@@ -177,6 +182,7 @@ public class App {
 									break;	
 							}
 						}
+						System.out.println("=============================================================\n");
 					}
 					break;
 				case 3:
