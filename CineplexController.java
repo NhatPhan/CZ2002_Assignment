@@ -74,6 +74,7 @@ public class CineplexController {
 							System.out.print(cal.getTime());
 							System.out.print("\n* Location : ");
 							System.out.print(cineplex.getLocation());
+							System.out.printf("\n* Cineplex : %s ",cineplex.getId());
 							System.out.printf("\n* Cinema : %s ",cinema.getId());
 							System.out.print("\n* Seats (XX indicates seat not available) : \n");
 							int rowLim = cinema.countRows();
@@ -147,25 +148,23 @@ public class CineplexController {
 	}
 	
 	public void updateCineplex(List<Ticket> ticketList) throws IOException {
-		String cineplexId = ticketList.get(0).getMovie().getShowTime().get(0).getCineplexId();
-		String cinemaId = ticketList.get(0).getMovie().getShowTime().get(0).getCinemaId();
-		Cinema cinema1;
+		String showtimeStrArr = ticketList.get(0).getShowTime().getTime().toString();
+		String showtimeStr = showtimeStrArr.substring(4,20) + showtimeStrArr.substring(24,28);
 		for(Cineplex cineplex : cineplexList) {
-			if(cineplex.getId().equals(cineplexId)) {
-				for(Cinema cinema : cineplex.getCinemaList()) {
-					if(cinema.getId().equals(cinemaId)) {
-						for(int j = 0; j < cinema.getSeatList().size(); j++) {
-							for(int i = 0; i < ticketList.size(); i++) {
-								String seatId = ticketList.get(i).getSeat().getId();
-								if(cinema.getSeatList().get(j).getId().equals(seatId)) {
-									cinema.getSeatList().get(j).bookSeat();
-									sync("cineplex.txt", cinema.getShowtime());
-								}
+			for(Cinema cinema : cineplex.getCinemaList()) {
+				System.out.println(cinema.getShowtime());
+				if(cinema.getShowtime().equals(showtimeStr)) {
+					for(int j = 0; j < cinema.getSeatList().size(); j++) {
+						for(int i = 0; i < ticketList.size(); i++) {
+							String seatId = ticketList.get(i).getSeat().getId();
+							if(cinema.getSeatList().get(j).getId().equals(seatId)) {
+								cinema.getSeatList().get(j).bookSeat();
+								sync("cineplex.txt", cinema.getShowtime());
 							}
 						}
 					}
-				} 
-			}
+				}
+			} 
 		}
 	}
 	
