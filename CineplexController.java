@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.text.ParseException;
 
-public class CineplexController {
+public class CineplexController implements IPrinter{
 	private ArrayList<Cineplex> cineplexList = new ArrayList();
 	public static final String SEPARATOR_IN = ",";
 	public static final String SEPARATOR_OUT_CINEMA = "|";
@@ -260,6 +260,12 @@ public class CineplexController {
 		*/
 		CineplexController cineplexCtrl = new CineplexController("cineplex.txt");
 		cineplexCtrl.printList();
+	}
+
+	@Override
+	public void print(int choice, Movie movie) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
