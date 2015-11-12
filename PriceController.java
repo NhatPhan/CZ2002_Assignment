@@ -69,7 +69,66 @@ public class PriceController {
 		}
 	}
 	
-	public static void modify(String filename, int typeOfSetting, double[] data) throws IOException {
+	public void configureSetting ()
+	{
+		try {
+			while (true)
+			{
+				Scanner scan = new Scanner(System.in);
+				PriceController price_ctrl = new PriceController("pricesettings.txt");
+				PriceSettings settings = price_ctrl.getPriceSettings();
+				price_ctrl.printSettings();
+				System.out.println("Which kind of price setting do you want to modify (1: movie type, 2: class, 3: age, 4: day preference) : ");
+				int typeOfSetting = scan.nextInt();
+				switch(typeOfSetting) {
+					case 1:
+						double[] data = settings.getMovieTypePrice();
+						System.out.print("Enter the price settings for movie types : ");
+						for(int i = 0; i < data.length; i++) {
+							System.out.printf("\n%s : ",MOVIETYPEPRICE_DF[i]);
+							data[i] = scan.nextDouble();
+						}
+						price_ctrl.modify("pricesettings.txt", typeOfSetting, data);
+						break;
+					case 2:
+						data = settings.getClassPrice();
+						System.out.print("Enter the price settings for class : ");
+						for(int i = 0; i < data.length; i++) {
+							System.out.printf("\n%s : ",CLASSPRICE_DF[i]);
+							data[i] = scan.nextDouble();
+						}
+						price_ctrl.modify("pricesettings.txt", typeOfSetting, data);
+						break;
+					case 3:
+						data = settings.getAgePrice();
+						System.out.print("Enter the price settings for movie types : ");
+						for(int i = 0; i < data.length; i++) {
+							System.out.printf("\n%s : ",AGEPRICE_DF[i]);
+							data[i] = scan.nextDouble();
+						}
+						price_ctrl.modify("pricesettings.txt", typeOfSetting, data);
+						break;
+					case 4:
+						data = settings.getDayPrefPrice();
+						System.out.print("Enter the price settings for movie types : ");
+						for(int i = 0; i < data.length; i++) {
+							System.out.printf("\n%s : ",DAYPREFPRICE_DF[i]);
+							data[i] = scan.nextDouble();
+						}
+						price_ctrl.modify("pricesettings.txt", typeOfSetting, data);
+						break;
+				}
+				price_ctrl.printSettings();
+				System.out.print("Continue Update Settings (y or n): ");
+				if (scan.next().equals("n"))
+					break;
+			}
+		}catch (IOException e) {
+			System.out.println("IOException > " + e.getMessage());
+		}
+	}
+	
+	public void modify(String filename, int typeOfSetting, double[] data) throws IOException {
 		List alw = new ArrayList() ;// to store Professors data
 		try {
 			PriceController price_ctrl = new PriceController(filename);
@@ -113,14 +172,18 @@ public class PriceController {
 				st.append(SEPARATOR_IN);	
 			}
 			alw.add(st.toString());
-			write(filename,alw);	
-			price_ctrl = new PriceController(filename);
-			PriceSettings new_settings = price_ctrl.getPriceSettings();
-			settings = new_settings;
-		}catch (IOException e) {
+			write(filename,alw);
+			sync();
+			}catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}	
 		
+	}
+	
+	private void sync ()
+	{
+		PriceController updated = new PriceController ("pricesettings.txt");
+		this.settings = updated.getPriceSettings();
 	}
 	
 	public PriceSettings getPriceSettings() {return settings; }
