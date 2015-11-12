@@ -79,11 +79,16 @@ public class Cinema {
 			if(seat.isOccupied())
 				occupiedSeat.add(seat.getId());
 		}
+		System.out.print("\t");
+		for (int i = 0; i < 3 * rowLim + 3; i++)
+			System.out.print("#");
+		System.out.print("\n\t# ");
 		for (int i = 0; i < 3 * rowLim - 1; i++) {
 				System.out.print("~");
 		}
-		System.out.println();
+		System.out.println(" #");
 		for (int i = 0; i < numLim; i++) {
+			System.out.print("\t# ");
 			for (int j = 0; j < rowLim; j++) {
 				boolean occupied = false;
 				String seatId = Character.toString((char) (row + i)) + (j + 1);
@@ -97,8 +102,12 @@ public class Cinema {
 					System.out.print(seatId);
 				System.out.print(" ");
 			}
-			System.out.println();
+			System.out.println("#");
 		}
+		System.out.print("\t");
+		for (int i = 0; i < 3 * rowLim + 3; i++)
+			System.out.print("#");
+		System.out.println();
 	}
 }
 
