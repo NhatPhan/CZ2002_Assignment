@@ -202,7 +202,10 @@ public class MovieController implements IPrinter {
 		System.out.print(movie.getDirector());
 		System.out.print("\n* Type: ");
 		System.out.print(movie.getType());
-		System.out.printf("\n* Overall Rating: %.2f / 5",movie.getOverallRating());
+		if(movie.getOverallRating() > 0)
+			System.out.print("\n* Overall Rating: Not Available");
+		else
+			System.out.printf("\n* Overall Rating: %.2f / 5",movie.getOverallRating());
 		List<String> cast = movie.getCast();
 		System.out.print("\n* Cast: ");
 		for(int j = 0; j < cast.size(); j++) {
@@ -303,7 +306,7 @@ public class MovieController implements IPrinter {
 			}
 			st.deleteCharAt(st.length() - 1);
 			st.append(SEPARATOR_OUT_CLASS);
-			System.out.print("\n* showTime: ");
+			System.out.print("\n--- showTime: ---");
 			String movieShowTime;
 			boolean moreMovieShowTime = true;
 			while(moreMovieShowTime) {
