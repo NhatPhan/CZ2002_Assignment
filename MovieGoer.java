@@ -40,9 +40,9 @@ public class MovieGoer {
 					boolean research = true;
 					while(research) {
 						System.out.println("\n===================== SEARCH & LIST =========================");
-						System.out.println("|1. Movies's Title											|");
-						System.out.println("|2. Now Showing Movies										|");
-						System.out.println("|3. Coming Soon Movies										|");
+						System.out.println("|1. Movies's Title                                          |");
+						System.out.println("|2. Now Showing Movies                                      |");
+						System.out.println("|3. Coming Soon Movies                                      |");
 						System.out.println("=============================================================");
 						int searchType = scan.nextInt();
 						switch(searchType) {
@@ -91,9 +91,9 @@ public class MovieGoer {
 							List<Ticket> ticketList = new ArrayList<Ticket>();
 							showtime = movieCtrl.printDetails(movie);
 							System.out.println("\n===================== MOVIE OPTIONS ==========================");
-							System.out.println("|1. Check seat availability and select seat for this movie	|");
-							System.out.println("|2. View Other Movie's Details								|");		
-							System.out.println("|3. Exit													|");
+							System.out.println("|1. Check seat availability and select seat for this movie  |");
+							System.out.println("|2. View Other Movie's Details                              |");		
+							System.out.println("|3. Exit                                                    |");
 							System.out.println("=============================================================");
 							int case2Choice = scan.nextInt();
 							String[] MOVIETYPEPRICE_DF = {"2D", "3D", "IMAX"};
@@ -115,8 +115,8 @@ public class MovieGoer {
 										seatList.add(seat);
 									}
 									System.out.println("\n=================== TICKET BOOKING ==========================");
-									System.out.println("|1. Book and purchase ticket with selected seats			|");
-									System.out.println("|2. Exit													|");
+									System.out.println("|1. Book and purchase ticket with selected seats            |");
+									System.out.println("|2. Exit                                                    |");
 									System.out.println("=============================================================");
 									if(scan.nextInt() == 2)
 										viewDetail = false;
