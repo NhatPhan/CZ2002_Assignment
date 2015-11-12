@@ -60,6 +60,11 @@ public class CineplexController implements IPrinter{
 		}
 	}
 	
+	public void addCineplex(Cineplex cineplex) {
+		cineplexList.add(cineplex);
+		updateNewCinplex();
+	}
+	
 	public void printList(Showtime showtime) {
 		for(Cineplex cineplex : cineplexList) {
 			if(cineplex.getId().equals(showtime.getCineplexId())) {
@@ -168,6 +173,7 @@ public class CineplexController implements IPrinter{
 		}
 	}
 	
+	
 	public void sync(String filename, String showtime) throws IOException {
 		List alw = new ArrayList() ;	// to store Cineplex data
 		for(Cineplex cineplex : cineplexList) {
@@ -207,6 +213,42 @@ public class CineplexController implements IPrinter{
 			alw.add(st.toString());
 		}
 		writeNew("cineplex.txt",alw);
+	}
+	
+	public void updateNewCinplex() {
+		List alw = new ArrayList() ;	// to store Cineplex data
+		Scanner scan = new Scanner(System.in);
+		
+		for(int k = 0; k < cineplexList.size(); k++) {
+			StringBuilder st =  new StringBuilder();
+			st.append(cineplexList.get(k).getId());
+			st.append(SEPARATOR_IN_CINEPLEX);
+			st.append(cineplexList.get(k).getLocation());
+			st.append(SEPARATOR_IN_CINEPLEX);
+			for(int l = 0; l < cineplexList.get(k).getCinemaList().size(); l++) {
+				st.append(cineplexList.get(k).getCinemaList().get(l).getId());
+				st.append(",");
+				st.append(cineplexList.get(k).getCinemaList().get(l).getShowtime());
+				st.append(",");
+				char row = 'A';
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 6; j++)
+					{
+						String seatID = Character.toString((char) (row + i)) + (j + 1);
+						st.append(seatID);
+						st.append(" false");
+						st.append(SEPARATOR_IN);
+					}
+				st.append(SEPARATOR_OUT_CINEMA);
+			}
+			alw.add(st.toString());
+		}
+		try {
+			writeNew("cineplex.txt",alw);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] aArgs) throws IOException {
