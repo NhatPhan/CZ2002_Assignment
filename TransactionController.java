@@ -15,16 +15,48 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.text.ParseException;
 
-
+/**
+ * Implements control logic for transactions: sync data with file storage, 
+ * modifies data & output data for viewers 
+ * @author Owlie
+ *
+ */
 public class TransactionController {
+	
+	/**
+	 * List of transactions as imported from file storage
+	 */
 	private ArrayList<Transaction> transactionList = new ArrayList();
+	/**
+	 * System settings as imported from file storage
+	 */
 	private PriceSettings priceSettings;
+	/**
+	 * Separator in file IO
+	 */
 	public static final String SEPARATOR_IN = ",";
+	/**
+	 * Separator in file IO
+	 */
 	public static final String SEPARATOR_IN_TRANS = ";";
+	/**
+	 * Separator in file IO
+	 */
 	public static final String SEPARATOR_OUT_TICKET = "/";
+	/**
+	 * Separator in file IO
+	 */
 	public static final String SEPARATOR_IN_TICKET = "?";
+	/**
+	 * Separator in file IO
+	 */
 	public static final String SEPARATOR_OUT_CLASS = "&";
 	
+	/**
+	 * Constructs new instance of controller and reads data, including transaction list and 
+	 * system settings from file storage 
+	 * @param filename file storage to be synchronized with transaction list
+	 */
 	public TransactionController(String filename) {
 		PriceController priceCtrl = new PriceController("pricesettings.txt");
 		this.priceSettings = priceCtrl.getPriceSettings();
@@ -76,16 +108,30 @@ public class TransactionController {
 		}
 	}
 	
+	/**
+	 * Adds new transaction to the transaction list and sync the list with file storage 
+	 * @param transaction new transaction to be added
+	 * @throws IOException exception handler for file IO
+	 */
 	public void add(Transaction transaction) throws IOException {
 		transactionList.add(transaction);
 		sync();
 	}
 	
+	/**
+	 * Remove an existing transaction from the list and sync the updated one with file storage
+	 * @param transaction transaction to be removed
+	 * @throws IOException exception handler for file IO
+	 */
 	public void remove(Transaction transaction) throws IOException {
 		transactionList.remove(transaction);
 		sync();
 	}
 	
+	/**
+	 * Write the transaction list data in the controller to file storage 
+	 * @throws IOException exception handler for file IO
+	 */
 	public void sync() throws IOException {
 		List alw = new ArrayList();
 		for(Transaction trans : transactionList) {
@@ -121,11 +167,15 @@ public class TransactionController {
 		write("transaction.txt",alw);
 	}
 	
+	/**
+	 * Search for a specific transaction using its ID and prints all its information
+	 * @param transId identity of the transaction
+	 */
 	public void getTransHistory(String transId) {
 		for(int i = 0; i < transactionList.size(); i++) {
 			if(transactionList.get(i).getId().equals(transId)) {
 				System.out.println("-----------------------------------------------------------");
-				System.out.println("Transaction Information: ");
+				System.out.printf("Transaction #%s Information: ", transactionList.get(i).getId());
 				System.out.printf("Date of Purchases: %s", transactionList.get(i).getDate());
 				System.out.printf("\nNumber of tickets buy: %d", transactionList.get(i).getTickets().size());
 				System.out.printf("\nMovie Title: %s", transactionList.get(i).getTickets().get(0).getMovieTitle());
@@ -146,6 +196,12 @@ public class TransactionController {
 	
 
 	// Read the contents of the given file
+	/**
+	 * Reads raw data in String format to the controller
+	 * @param fileName file storage to be read
+	 * @return raw data in String format
+	 * @throws IOException exception handler for file IO
+	 */
 	public static List read(String fileName) throws IOException {
 		List data = new ArrayList() ;
 	    Scanner scanner = new Scanner(new FileInputStream(fileName));
@@ -161,6 +217,12 @@ public class TransactionController {
 	}
 		
 	// Write fixed content to the given file
+	/**
+	 * Write data to file storage in separate lines
+	 * @param fileName file storage to be synchronized with controller
+	 * @param data data to be written to the file storage
+	 * @throws IOException exception handler for file IO
+	 */
 	public static void write(String fileName, List data) throws IOException  {
 		PrintWriter out = new PrintWriter(new FileWriter(fileName));
 		try {
@@ -174,6 +236,12 @@ public class TransactionController {
 	}
 	
 	// Write fixed content to the given file
+	/**
+	 * Append data to file storage in separate lines
+	 * @param fileName file storage to be synchronized with controller
+	 * @param data data to be written to the file storage
+	 * @throws IOException exception handler for file IO
+	 */
 	public static void writeAppend(String fileName, List data) throws IOException  {
 		PrintWriter out = new PrintWriter(new FileWriter(fileName));
 		try {
@@ -346,7 +414,6 @@ public class TransactionController {
 	}	
 	*/
 }
-
 
 
 
