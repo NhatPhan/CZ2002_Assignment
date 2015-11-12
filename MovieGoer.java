@@ -28,7 +28,6 @@ public class MovieGoer {
 			System.out.println("|2. View movie details – including reviews and ratings      |");
 			System.out.println("|3. View booking history                                    |");
 			System.out.println("|4. List the Top 5 ranking by overall reviewers’ ratings    |");
-			System.out.println("|5. Exit                                                    |");
 			System.out.println("=============================================================");
 			int choice = scan.nextInt();
 			List<Showtime> showtime = new ArrayList<Showtime>();
@@ -41,9 +40,9 @@ public class MovieGoer {
 					boolean research = true;
 					while(research) {
 						System.out.println("\n===================== SEARCH & LIST =========================");
-						System.out.println("|1. Movies's Title                                          |");
-						System.out.println("|2. Now Showing Movies                                      |");
-						System.out.println("|3. Coming Soon Movies                                      |");
+						System.out.println("|1. Movies's Title											|");
+						System.out.println("|2. Now Showing Movies										|");
+						System.out.println("|3. Coming Soon Movies										|");
 						System.out.println("=============================================================");
 						int searchType = scan.nextInt();
 						switch(searchType) {
@@ -91,10 +90,10 @@ public class MovieGoer {
 						else {
 							List<Ticket> ticketList = new ArrayList<Ticket>();
 							showtime = movieCtrl.printDetails(movie);
-							System.out.println("\n===================== MOVIE OPTIONS =========================");
-							System.out.println("|1. Check seat availability and select seat for this movie  |");
-							System.out.println("|2. View Other Movie's Details                              |");		
-							System.out.println("|3. Exit                                                    |");
+							System.out.println("\n===================== MOVIE OPTIONS ==========================");
+							System.out.println("|1. Check seat availability and select seat for this movie	|");
+							System.out.println("|2. View Other Movie's Details								|");		
+							System.out.println("|3. Exit													|");
 							System.out.println("=============================================================");
 							int case2Choice = scan.nextInt();
 							String[] MOVIETYPEPRICE_DF = {"2D", "3D", "IMAX"};
@@ -103,10 +102,10 @@ public class MovieGoer {
 							String[] DAYPREFPRICE_DF = {"Mon - Thu", " Sun and eve of PH & PH"};
 							switch(case2Choice) {
 								case 1:
-									System.out.print("\nEnter the index of your desire showtime: ");
+									System.out.print("Enter the index of your desire showtime: ");
 									showtimeNumber = scan.nextInt();
 									movieCtrl.checkAndSelectSeats(showtime.get(showtimeNumber - 1));
-									System.out.print("\nEnter the number of seats you want to select: ");
+									System.out.print("Enter the number of seats you want to select: ");
 									scan.nextLine();
 									int numOfSeat = scan.nextInt();
 									System.out.print("\nEnter your desire seats: ");
@@ -116,8 +115,8 @@ public class MovieGoer {
 										seatList.add(seat);
 									}
 									System.out.println("\n=================== TICKET BOOKING ==========================");
-									System.out.println("|1. Book and purchase ticket with selected seats            |");
-									System.out.println("|2. Exit                                                    |");
+									System.out.println("|1. Book and purchase ticket with selected seats			|");
+									System.out.println("|2. Exit													|");
 									System.out.println("=============================================================");
 									if(scan.nextInt() == 2)
 										viewDetail = false;
@@ -126,7 +125,7 @@ public class MovieGoer {
 										System.out.println("\n==================== TICKET CHOICE ==========================");
 										scan.nextLine();
 										for(int i = 0; i < seatList.size(); i++) {
-											System.out.printf("\n%dst Ticket : ",i + 1);
+											System.out.printf("\nTicket %d: ",i + 1);
 											System.out.print("\n* Name : ");
 											String name = scan.nextLine();
 											System.out.print("* Mobile : ");
@@ -173,13 +172,14 @@ public class MovieGoer {
 											cineplexCtrl.updateCineplex(ticketList);
 											viewDetail = false;
 										}
+										System.out.println("=============================================================");
 									}
 									break;				
 								case 2:
 									break;
 								case 3:
 									viewDetail = false;
-									break;
+									break;	
 							}
 						}
 						System.out.println("=============================================================\n");
@@ -193,9 +193,6 @@ public class MovieGoer {
 					break;
 				case 4:
 					movieCtrl.printTopMovie();
-					break;
-				case 5:
-					cont = false;
 					break;
 			}
 		}
