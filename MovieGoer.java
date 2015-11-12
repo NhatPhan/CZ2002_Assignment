@@ -16,6 +16,11 @@ import java.util.Locale;
 import java.util.Random;
 import java.text.ParseException;
 
+/**
+ * Provides subsequent interface to the Movie-goers
+ * @author Owlie
+ *
+ */
 public class MovieGoer {
 	public static void main(String[] args) throws IOException {
 		MovieController movieCtrl = new MovieController("movie.txt");
