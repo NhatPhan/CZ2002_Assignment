@@ -127,7 +127,7 @@ public class TransactionController {
 				System.out.println("-----------------------------------------------------------");
 				System.out.println("Transaction Information: ");
 				System.out.printf("Date of Purchases: %s", transactionList.get(i).getDate());
-				System.out.printf("Number of tickets buy: %d", transactionList.get(i).getTickets().size());
+				System.out.printf("\nNumber of tickets buy: %d", transactionList.get(i).getTickets().size());
 				System.out.printf("\nMovie Title: %s", transactionList.get(i).getTickets().get(0).getMovieTitle());
 				System.out.printf("\nShow Time: %s", transactionList.get(i).getTickets().get(0).getShowtime().getCalendar().getTime());
 				for(int j = 0; j < transactionList.get(i).getTickets().size(); j++) {	
