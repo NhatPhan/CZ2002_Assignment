@@ -151,7 +151,7 @@ public class MovieController {
 	
 	public void searchMoviesByTitle(String title) {
 		boolean found = false;
-		System.out.println("-----------------------------------------");
+		System.out.println("\n-------------------------------------------------------------");
 		for(int i = 0; i < movieList.size(); i++) {
 			if(movieList.get(i).getTitle().toLowerCase().contains(title.toLowerCase())) {
 				printList(movieList.get(i));
@@ -160,12 +160,12 @@ public class MovieController {
 		}
 		if(!found)
 			System.out.println("No Movies Found!");
-		System.out.println("-----------------------------------------");
+		System.out.println("-------------------------------------------------------------");
 	}
 	
 	public void searchMoviesByStatus(String status) {
 		boolean found = false;
-		System.out.println("-----------------------------------------");
+		System.out.println("\n-------------------------------------------------------------");
 		for(int i = 0; i < movieList.size(); i++) {
 			if(movieList.get(i).getStatus().equals(status)) {
 				printList(movieList.get(i));
@@ -174,11 +174,11 @@ public class MovieController {
 		}
 		if(!found)
 			System.out.println("No Movies Found!");
-		System.out.println("-----------------------------------------");
+		System.out.println("-------------------------------------------------------------");
 	}
 	
 	public List<Showtime> printDetails(Movie movie) {
-		System.out.print("----------------------------------------------------------------------------------");
+		System.out.println("\n-------------------------------------------------------------");
 		System.out.print("\n* Title: ");
 		System.out.print(movie.getTitle());
 		System.out.print("\n* Status: ");
@@ -211,7 +211,7 @@ public class MovieController {
 			System.out.println("\t" +review.getRating() + " / 5");
 			System.out.println("\t" + review.getReview());
 		}
-		System.out.println("\n----------------------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------");
 		return showtime;
 	}
 	
@@ -260,7 +260,7 @@ public class MovieController {
 		while (true)
 		{
 			StringBuilder st =  new StringBuilder();
-			System.out.print("\n======== NEW MOVIE ========");
+			System.out.println("\n======================== ADD MOVIE ==========================");
 			System.out.print("\n* Title: ");
 			String title = sc.nextLine();
 			st.append(title);
@@ -310,6 +310,7 @@ public class MovieController {
 				String minute = sc.next();
 				movieShowTime = cineplexId + "|" + cinemaId + "|" + month + " " + day + " " + hour + ":" + minute + ":00 " + year;
 				st.append(movieShowTime);
+				System.out.print("\n* Add More Showtime (y or n): ");
 				moreMovieShowTime = sc.next().equals("y");
 				if (moreMovieShowTime) {st.append(SEPARATOR_IN); }
 			}
@@ -332,6 +333,7 @@ public class MovieController {
 				if(moreReview) {st.append(SEPARATOR_IN); }
 			}
 			newMovie.add(st.toString());
+			System.out.println("=============================================================\n");
 			System.out.print("\n* Add Movie (y or n): ");
 			if (sc.nextLine().equals("n"))
 				break;
@@ -358,6 +360,7 @@ public class MovieController {
 		
 		while (true)
 		{
+			System.out.println("\n====================== UPDATE MOVIE =========================");
 			System.out.print("Enter EXACT Movie Title to be updated: ");	// search for movie to update
 			String title = sc.nextLine();
 			if (title.equals(none))
@@ -374,6 +377,7 @@ public class MovieController {
 				System.out.println("No Movie Title existed in the database!!");
 				break;
 			}
+			System.out.println("(NONE = no update)");
 			Movie item = movieList.get(index);
 			System.out.print("Enter Updated Status: ");	// update STATUS
 			String status = sc.nextLine();
@@ -437,6 +441,7 @@ public class MovieController {
 					break;
 			}
 		}
+		System.out.println("=============================================================\n");
 		try {
 			write("movie.txt", toStringList(movieList));
 		} catch (IOException e) {
@@ -452,6 +457,7 @@ public class MovieController {
 		
 		while (true)
 		{
+			System.out.println("\n======================= DELETE MOVIE ========================");
 			System.out.println("Enter EXACT Movie Title to be deleted: ");
 			String title = sc.nextLine();
 			if (title.equals("NONE"))
@@ -466,6 +472,7 @@ public class MovieController {
 				}
 			System.out.println("No Movie Title existed in the database!!");
 		}
+		System.out.println("=============================================================");
 	}
 	
 	public static List<String> toStringList (List<Movie> movieList)
