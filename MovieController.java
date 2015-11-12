@@ -16,13 +16,15 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.text.ParseException;
 
-public class MovieController {
+public class MovieController implements IPrinter {
 	
 	/* file IO seperator */
 	public static final String SEPARATOR_IN1 = "#";
 	public static final String SEPARATOR_IN = ",";
 	public static final String SEPARATOR_IN_SHOWTIME = "|";
 	public static final String SEPARATOR_OUT_CLASS = "&";
+	public static final String[] cineplexLocations = {"53 Ang Mo Kio Ave 3 AMK Hub Level 4 Singapore 569933",
+	"1 Bukit Batok Central Link West Mall", "5 Stadium Walk Level 3 Kallang Leisure Park"};
 	
 	private List<Movie> movieList = new ArrayList(); // copy of data from storage for processing
 	
@@ -103,6 +105,17 @@ public class MovieController {
 		return movieList;
 	} 
 	
+	@Override
+	public void print(int choice, Movie movie) {
+		switch(choice) {
+			case 1: 
+				printList(movie);
+				break;
+			case 2:
+				printTopMovie();
+		}
+	}
+	
 	// Read the contents of the given file
 	public static List read(String fileName) throws IOException {
 		List data = new ArrayList() ;
@@ -145,10 +158,6 @@ public class MovieController {
 	}
 	
 	
-	public void printList(Movie movie) {
-		System.out.println(movie.getTitle());
-	}
-	
 	public void searchMoviesByTitle(String title) {
 		boolean found = false;
 		System.out.println("\n-------------------------------------------------------------");
@@ -161,6 +170,10 @@ public class MovieController {
 		if(!found)
 			System.out.println("No Movies Found!");
 		System.out.println("-------------------------------------------------------------");
+	}
+	
+	public void printList(Movie movie) {
+		System.out.println(movie.getTitle());
 	}
 	
 	public void searchMoviesByStatus(String status) {
@@ -256,9 +269,9 @@ public class MovieController {
 	{
 		Scanner sc = new Scanner (System.in);
 		List<String> newMovie = toStringList(movieList);
-		
 		while (true)
 		{
+			CineplexController cineplexCtrl = new CineplexController("cineplex.txt");
 			StringBuilder st =  new StringBuilder();
 			System.out.println("\n======================== ADD MOVIE ==========================");
 			System.out.print("\n* Title: ");
@@ -294,6 +307,7 @@ public class MovieController {
 			String movieShowTime;
 			boolean moreMovieShowTime = true;
 			while(moreMovieShowTime) {
+				List<Cinema> cinemaList = new ArrayList();
 				System.out.print("\n* CineplexId : ");
 				String cineplexId = sc.next();
 				System.out.print("\n* CinemaId : ");
@@ -309,10 +323,15 @@ public class MovieController {
 				System.out.print("\n* Minute : ");
 				String minute = sc.next();
 				movieShowTime = cineplexId + "|" + cinemaId + "|" + month + " " + day + " " + hour + ":" + minute + ":00 " + year;
+				String movieShowTimeStr = month + " " + day + " " + hour + ":" + minute + ":00 " + year;
 				st.append(movieShowTime);
 				System.out.print("\n* Add More Showtime (y or n): ");
 				moreMovieShowTime = sc.next().equals("y");
 				if (moreMovieShowTime) {st.append(SEPARATOR_IN); }
+				Cinema newCinema = new Cinema(cinemaId, movieShowTimeStr, 4, 6);
+				cinemaList.add(newCinema);
+				Cineplex newcineplex = new Cineplex(cineplexId, cineplexLocations[Integer.parseInt(cineplexId) - 1], cinemaList);
+				cineplexCtrl.addCineplex(newcineplex);
 			}
 			st.append(SEPARATOR_OUT_CLASS);
 			System.out.print("\n* Rating and Written Review: ");
@@ -630,7 +649,6 @@ public class MovieController {
 		for (Movie movie : mc.getMovieList())
 			mc.printDetails(movie);
 		
-	}	
+	}
 }
-
 
