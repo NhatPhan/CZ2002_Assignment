@@ -34,6 +34,30 @@ public class AccountController {
 		}
 	}
 	
+	public boolean authenticate() {
+		String username, password, name;
+		Scanner scan = new Scanner(System.in);
+		
+		//read username
+		System.out.print("\nEnter your username : ");
+		username = scan.next();
+		
+		//read password
+		System.out.print("\nEnter your username : ");
+		password = scan.next();
+
+		AccountController acc_ctrl = new AccountController("account.txt");
+		
+		if(acc_ctrl.authenticate(username, password)) {
+			System.out.println("***** Successful Authentication *****");
+			return true;
+		}
+		else {
+			System.out.println("***** Unsuscessful Authentication *****");
+			return false;
+		}
+	}
+	
 	public boolean authenticate(String username, String password) {
 		//System.out.printf("Username: %s pass: %s ", username, password);
 		for (int i = 0 ; i < account.length ; i++) {
