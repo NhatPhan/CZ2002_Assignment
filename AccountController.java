@@ -43,7 +43,7 @@ public class AccountController {
 		username = scan.next();
 		
 		//read password
-		System.out.print("\nEnter your username : ");
+		System.out.print("\nEnter your password : ");
 		password = scan.next();
 
 		AccountController acc_ctrl = new AccountController("account.txt");
